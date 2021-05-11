@@ -1,5 +1,8 @@
 import {
   animate,
+  keyframes,
+  query,
+  stagger,
   state,
   style,
   transition,
@@ -10,7 +13,7 @@ import {
 // Add a fade-in transition (from void to default)
 trigger('fade', [
   transition('void => *', [
-    style({ backgroundColor: 'red', opacity: 0 }),
+    style({ opacity: 0 }),
     animate(2000, style({ opacity: 1 })),
   ]),
 ]);
@@ -48,8 +51,8 @@ trigger('fade', [
 trigger('fade', [
   state('void', style({ opacity: 0 })),
   transition('void => *', [animate('2000ms ease-in')]),
-  transition('* => void', [animate('2000ms ease-out')])
-])
+  transition('* => void', [animate('2000ms ease-out')]),
+]);
 
 // Example 4
 // Multiple state-change expressions
@@ -65,7 +68,63 @@ trigger('fade', [
   transition(':enter, :leave', [animate('2000ms ease')]),
 ]);
 
-/*
+// Example 6
+// Stagger
+trigger('fade', [
+  transition('* => *', [
+    query(':enter', style({ opacity: 0 }), { optional: true }),
+    query(
+      ':enter',
+      stagger('300ms', [
+        animate(
+          '1s ease-in',
+          keyframes([
+            style({
+              opacity: 0,
+              transform: 'translateY(-75px)',
+              offset: 0,
+            }),
+            style({
+              opacity: 0.5,
+              transform: 'translateY(35px)',
+              offset: 0.3,
+            }),
+            style({ opacity: 1, transform: 'translateY(0px)', offset: 1 }),
+          ])
+        ),
+      ]),
+      { optional: true }
+    ),
+    query(
+      ':leave',
+      stagger('300ms', [
+        animate(
+          '1s ease-in',
+          keyframes([
+            style({
+              opacity: 1,
+              transform: 'translateY(0px)',
+              offset: 0,
+            }),
+            style({
+              opacity: 0.5,
+              transform: 'translateY(35px)',
+              offset: 0.3,
+            }),
+            style({
+              opacity: 0,
+              transform: 'translateY(-75px)',
+              offset: 1,
+            }),
+          ])
+        ),
+      ]),
+      { optional: true }
+    ),
+  ]),
+]),
+
+  /*
 IMPORTANT NOTE:
 For best performance you should only animate transform & opacity properties.
 
@@ -74,14 +133,16 @@ possibly animate: color, border-style, vivibility, background, text-decoration, 
 avoid animating: width, heigt, padding, margin, display, border-width, border, top, position, font-size, float.
 */
 
-// Example 6 
-// Fly-in fly-out
-trigger('flyInOut', [
-  transition(':enter', [
-    style({ transform: 'translateX(-100%)' }),
-    animate('500ms'),
-  ]),
-  transition(':leave', [
-    animate('500ms', style({ transform: 'translateX(100%)' })),
-  ]),
-]);
+  // Example 6
+  // Fly-in fly-out
+  trigger('flyInOut', [
+    transition(':enter', [
+      style({ transform: 'translateX(-100%)' }),
+      animate('500ms'),
+    ]),
+    transition(':leave', [
+      animate('500ms', style({ transform: 'translateX(100%)' })),
+    ]),
+  ]);
+
+

@@ -1,5 +1,8 @@
 import {
   animate,
+  keyframes,
+  query,
+  stagger,
   state,
   style,
   transition,
@@ -7,7 +10,8 @@ import {
 } from '@angular/animations';
 import { Component } from '@angular/core';
 
-import { flyInOut } from './animations';
+// import { flyInOut } from './animations';
+// import { staggerSlide } from './animations';
 
 @Component({
   selector: 'app-root',
@@ -15,10 +19,11 @@ import { flyInOut } from './animations';
   styleUrls: ['./app.component.scss'],
   animations: [
     trigger('fade', [
-      state('void', style({ opacity: 0 })),
-      transition(':enter, :leave', [animate('2000ms ease')]),
+      transition('void => *', [
+        style({ opacity: 0 }),
+        animate(2000, style({ opacity: 1 })),
+      ]),
     ]),
-    flyInOut,
   ],
 })
 export class AppComponent {
@@ -33,6 +38,7 @@ export class AppComponent {
   placeInCart(item) {
     const index = this.items.indexOf(item);
     if (index > -1) {
+      console.log('Removed:', item);
       this.items.splice(index, 1);
     }
   }
