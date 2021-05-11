@@ -64,3 +64,24 @@ trigger('fade', [
   state('void', style({ opacity: 0 })),
   transition(':enter, :leave', [animate('2000ms ease')]),
 ]);
+
+/*
+IMPORTANT NOTE:
+For best performance you should only animate transform & opacity properties.
+
+possibly animate: color, border-style, vivibility, background, text-decoration, background-image, background-position, background-repeat, outline-color, outline, outline-style.
+
+avoid animating: width, heigt, padding, margin, display, border-width, border, top, position, font-size, float.
+*/
+
+// Example 6 
+// Fly-in fly-out
+trigger('flyInOut', [
+  transition(':enter', [
+    style({ transform: 'translateX(-100%)' }),
+    animate('500ms'),
+  ]),
+  transition(':leave', [
+    animate('500ms', style({ transform: 'translateX(100%)' })),
+  ]),
+]);

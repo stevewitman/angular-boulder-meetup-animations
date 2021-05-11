@@ -1,10 +1,22 @@
 <div class="page">
-  <div class="container">
+  <div class="example">
     <h1>Shopping List</h1>
     <div class="shop-list">
-      <div class="shop-item" *ngFor="let item of items" @fade (click)="placeInCart(item)">
-        {{ item | titlecase}}
+      <div
+        class="shop-item"
+        *ngFor="let item of items"
+        @fade
+        (click)="placeInCart(item)"
+      >
+        {{ item | titlecase }}
       </div>
     </div>
+  </div>
+
+  <br/>
+
+  <div class="example">
+    <button (click)="toggleShowHide()">Slide-in / Slide-Out</button>
+    <div class="some-content" *ngIf="isVisible" @flyInOut>Some Content</div>
   </div>
 </div>

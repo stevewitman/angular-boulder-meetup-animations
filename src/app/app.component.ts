@@ -7,7 +7,7 @@ import {
 } from '@angular/animations';
 import { Component } from '@angular/core';
 
-import { fade1 } from './animations';
+import { flyInOut } from './animations';
 
 @Component({
   selector: 'app-root',
@@ -18,10 +18,13 @@ import { fade1 } from './animations';
       state('void', style({ opacity: 0 })),
       transition(':enter, :leave', [animate('2000ms ease')]),
     ]),
+    flyInOut,
   ],
 })
 export class AppComponent {
   items = [];
+
+  isVisible = false;
 
   constructor() {
     this.items = ['milk', 'bread', 'eggs', 'apples', 'bananas', 'oranges'];
@@ -32,5 +35,9 @@ export class AppComponent {
     if (index > -1) {
       this.items.splice(index, 1);
     }
+  }
+
+  toggleShowHide() {
+    this.isVisible = !this.isVisible;
   }
 }
